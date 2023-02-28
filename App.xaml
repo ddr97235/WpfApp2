@@ -1,0 +1,157 @@
+﻿<Application x:Class="WpfApp2.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:WpfApp2"
+             xmlns:view="clr-namespace:WpfApp2.View"
+             StartupUri="MainWindow.xaml">
+    
+    <Application.Resources>
+        <view:BoolActiveHoleToColorConverter x:Key="BoolActiveHoleToColorConverter" />
+        <view:BoolToVisibilityConverter x:Key="boolToVisibilityConverter" />
+        <view:NotBoolToVisibilityConverter x:Key="notboolToVisibilityConverter" />
+  
+
+        <Style x:Key="SButtonStyle" TargetType="{x:Type Button}" >
+            <Style.Resources>
+                <Storyboard x:Key="Storyboard1" >
+                <ColorAnimation  Storyboard.TargetProperty="Stroke.Color" To="#FF2A774D"  Duration="0:0:0.8" Storyboard.TargetName="borderSensorNumber"/>
+                <ColorAnimation  Storyboard.TargetProperty="Fill.Color" To="#FF2A774D"  Duration="0:0:0.8" Storyboard.TargetName="borderSensorNumber" />
+            </Storyboard>
+            <Storyboard x:Key="Storyboard2" >
+                <ColorAnimation  Storyboard.TargetProperty="Stroke.Color" To="#FF9CA48A"  Duration="0:0:0.8" Storyboard.TargetName="borderSensorNumber"/>
+                <ColorAnimation  Storyboard.TargetProperty="Fill.Color" To="#FF9CA48A"  Duration="0:0:0.8" Storyboard.TargetName="borderSensorNumber" />
+            </Storyboard>
+            </Style.Resources>
+
+            <Setter Property="Width" Value="220"/>
+            <Setter Property="Height" Value="445"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Canvas Height="445" Width="220">
+                            <Rectangle x:Name="border" Width="220" Height="445" RadiusX="10" RadiusY="10" Stroke="#FFCDD1C3" Fill="#FFCDD1C3" 
+                                   StrokeThickness="2" ClipToBounds="True">
+                                <Rectangle.Triggers>
+                                    <EventTrigger RoutedEvent="Rectangle.MouseEnter">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <ColorAnimation  Storyboard.TargetProperty="Stroke.Color" To="#FFFD0404"  Duration="0:0:0.2"/>
+                                                <ColorAnimation  Storyboard.TargetProperty="Foreground.Color" To="#FFFD0404"  Duration="0:0:0.2" Storyboard.TargetName="sensorNumber" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                    <EventTrigger RoutedEvent="Rectangle.MouseLeave">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <ColorAnimation  Storyboard.TargetProperty="Stroke.Color" To="#FFCDD1C3"  Duration="0:0:0.2"/>
+                                                <ColorAnimation  Storyboard.TargetProperty="Foreground.Color" To="#FFFFFFFF"  Duration="0:0:0.2" Storyboard.TargetName="sensorNumber" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                </Rectangle.Triggers>
+
+                            </Rectangle>
+                            <Rectangle x:Name="borderSensorNumber" Width="200" Height="55" Canvas.Top="28" Canvas.Left="10" IsHitTestVisible="False"
+                                   RadiusX="10" RadiusY="10" Stroke="#FF2A774D" Fill="#FF2A774D" StrokeThickness="2" ClipToBounds="True">
+                            </Rectangle>
+                            <TextBlock x:Name="sensorNumber" Text="{Binding LineNumber, StringFormat={}№ {0},FallbackValue=№ 1}" Width="220" TextAlignment="Center"
+                                   Foreground="#FFFFFFFF" FontSize="24" FontWeight="Bold" FontFamily=" ./#Roboto" Canvas.Top="43" IsHitTestVisible="False"/>
+                            <TextBlock Text="{Binding WTypeName,FallbackValue= мм}" Width="220" TextAlignment="Center" IsHitTestVisible="False"
+                                   Foreground="#FF636656" FontSize="16" FontWeight="Bold" FontFamily=" ./#Roboto" Canvas.Top="113" >
+                            </TextBlock>
+                            <TextBlock x:Name="tName" Text="{Binding CurrentTName,FallbackValue=№4}" Width="220" TextAlignment="Center" 
+                                   Foreground="#FF636656" FontSize="16" FontWeight="Bold" FontFamily=" ./#Roboto" Canvas.Top="146" IsHitTestVisible="False">
+                            </TextBlock>
+                            <TextBlock x:Name="simulatedD" Text="{Binding SimulatedD, StringFormat={}Д: {0} м,FallbackValue=Д: 100 м}" IsHitTestVisible="False"
+                                   Width="220" TextAlignment="Center" Foreground="#FF636656" FontSize="16" FontWeight="Bold" FontFamily=" ./#Roboto" Canvas.Top="179" >
+                            </TextBlock>
+                            <TextBlock  Text="{Binding Totals,FallbackValue= 12}" Width="220" TextAlignment="Center" IsHitTestVisible="False"
+                                   Foreground="Black" FontSize="48" FontWeight="Bold" FontFamily=" ./#Roboto" Canvas.Top="373" >
+                            </TextBlock>
+
+                            <TextBlock Text="{Binding SCount}" Width="105" TextAlignment="Center" IsHitTestVisible="False"
+                                   Visibility="{Binding IsV1, Converter = {StaticResource boolToVisibilityConverter},FallbackValue=Collapsed}"
+                                   Foreground="#FF636656" FontSize="38" FontWeight="Bold" FontFamily=" ./#Roboto" Canvas.Top="300" Canvas.Left="115" />
+
+                            <TextBlock x:Name="sLeft" Text="{Binding SLeft,FallbackValue=3}" Width="220" TextAlignment="Center" IsHitTestVisible="False"
+                                   Visibility="{Binding IsV1, Converter = {StaticResource notboolToVisibilityConverter},FallbackValue=Visible}"
+                                   Foreground="#FF636656" FontSize="38" FontWeight="Bold" FontFamily=" ./#Roboto" Canvas.Top="300" >
+                            </TextBlock>
+
+                            <TextBlock Text="{Binding TDefeated}" Width="105" TextAlignment="Center" IsHitTestVisible="False"
+                                   Visibility="{Binding IsV1, Converter = {StaticResource boolToVisibilityConverter}}"
+                                   Foreground="#FF636656" FontSize="38" FontWeight="Bold" FontFamily=" ./#Roboto" Canvas.Top="300" Canvas.Left="0" />
+                           
+                            <TextBlock Text="__ ИЗ __" Width="220" TextAlignment="Center" IsHitTestVisible="False"
+                                   Visibility="{Binding IsV1, Converter = {StaticResource boolToVisibilityConverter},FallbackValue=Collapsed}"
+                                   Foreground="#FF636656" FontSize="12" FontWeight="Bold" FontFamily=" ./#Roboto" Canvas.Top="279" Canvas.Left="0" />
+
+
+                            <Canvas Visibility="{Binding IsStopMessage,FallbackValue = Visible, Converter = {StaticResource boolToVisibilityConverter}}" IsHitTestVisible="False">
+                                <Rectangle x:Name="errorBoard" Canvas.Top="113" Canvas.Left="10" Width="200" Height="84" 
+                                       RadiusX="8" RadiusY="8" Stroke="#FFFD0404" Fill="#FFFD0404" StrokeThickness="2" ClipToBounds="True"/>
+                                <Grid Canvas.Left="15" Canvas.Top="113" Height="84">
+                                    <TextBlock Text="{Binding TextMessage,FallbackValue=СТОП!}" Width="190" TextAlignment="Center"  Foreground="#FFFFFFFF" 
+                                           FontSize="14" FontWeight="Bold" FontFamily=" ./#Roboto" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                                </Grid>
+                            </Canvas>
+
+                            <!--<Border x:Name="border" Background="Transparent" CornerRadius="10,10,10,10" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="Transparent" SnapsToDevicePixels="true" Width="293" Height="55"/>
+                        <TextBlock x:Name="text" Text="{TemplateBinding Content}" Foreground="#FF636656" FontWeight="Bold" FontFamily="Roboto" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <TextBlock x:Name="text" Text="{Binding СurrentScaleT}" Foreground="#FF636656" FontWeight="Bold" FontFamily="Roboto" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center" />-->
+                        </Canvas>
+                        <ControlTemplate.Triggers>
+                            <!--<Trigger Property="HasContent" Value="true">
+                                <Setter Property="FocusVisualStyle" Value="{StaticResource OptionMarkFocusVisual}"/>
+                                <Setter Property="Padding" Value="4,-1,0,0"/>
+                            </Trigger>-->
+
+                            <DataTrigger Binding="{Binding ElementName=sLeft, Path=Visibility}" Value="Collapsed" >
+                                <!--<DataTrigger Binding="{Binding ElementName=sLeft, Path=Tag}" Value="false" >-->
+                        <!--<DataTrigger Binding="{Binding ElementName=sLeft, Path=Text}" Value="false" >--> 
+                        <!--<DataTrigger Binding="{Binding IsV1}" Value="true" >-->
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard >
+                                        <Storyboard>
+                                            <ColorAnimation  Storyboard.TargetProperty="Stroke.Color" To="#FF2A774D"  Duration="0:0:0.8" Storyboard.TargetName="borderSensorNumber"/>
+                                            <ColorAnimation  Storyboard.TargetProperty="Fill.Color" To="#FF2A774D"  Duration="0:0:0.8" Storyboard.TargetName="borderSensorNumber" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.EnterActions>
+                                <DataTrigger.ExitActions>
+                                    <BeginStoryboard >
+                                        <Storyboard>
+                                            <ColorAnimation  Storyboard.TargetProperty="Stroke.Color" To="#FF9CA48A"  Duration="0:0:0.8" Storyboard.TargetName="borderSensorNumber"/>
+                                            <ColorAnimation  Storyboard.TargetProperty="Fill.Color" To="#FF9CA48A"  Duration="0:0:0.8" Storyboard.TargetName="borderSensorNumber" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.ExitActions>
+                                <Setter TargetName="sLeft" Property="Foreground" Value="#FFE31722"/>
+                            </DataTrigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <!--<Setter TargetName="sensorNumber" Property="Foreground" Value="#FFE31722"/>
+                                <Setter TargetName="border" Property="Stroke" Value="#FFE31722"/>-->
+                            </Trigger>
+                            <!--<Trigger Property="IsEnabled" Value="false">
+                                <Setter TargetName="text" Property="Foreground" Value="#FF9CA48A"/>
+                            </Trigger>-->
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter TargetName="sensorNumber" Property="Foreground" Value="#FFFFFFFF"/>
+                                <Setter TargetName="borderSensorNumber" Property="Stroke" Value="#FFE31722"/>
+                                <Setter TargetName="borderSensorNumber" Property="Fill" Value="#FFE31722"/>
+                                
+                                <!--<Setter TargetName="border" Property="Fill" Value="#FFE31722"/>-->
+                                <Setter TargetName="border" Property="Stroke" Value="#FFE31722"/>
+                            </Trigger>
+                            <DataTrigger Binding="{Binding ElementName=sLeft, Path=Text}" Value="0" >
+                                <Setter TargetName="sLeft" Property="Foreground" Value="#FFE31722"/>
+                            </DataTrigger>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Application.Resources>
+</Application>
